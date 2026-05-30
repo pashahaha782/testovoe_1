@@ -1,6 +1,6 @@
-import { Outlet } from "react-router-dom"
-import { AppHeader } from "../shared/ui/header";
-import { CssBaseline } from '@mui/material';
+import { Outlet } from "react-router-dom";
+import { AppHeader } from "../shared/ui/Header/Header.tsx";
+import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "../theme.ts";
 
@@ -12,8 +12,6 @@ export function App() {
         <AppHeader />
         <Outlet />
       </div>
-
     </ThemeProvider>
   );
 }
-
