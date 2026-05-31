@@ -98,7 +98,6 @@ export const useAuthorizedUser = () => useAuthStore((state) => state.user);
 export const useIsAuthenticated = () =>
   useAuthStore((state) => state.isAuthenticated);
 
-// Действия (обычные функции, вызываются по событию)
 export const login = (email: string, password: string) =>
   useAuthStore.getState().login(email, password);
 
