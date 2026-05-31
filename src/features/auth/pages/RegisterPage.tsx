@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ROUTES } from "../../../shared/routes/routes.ts";
-import { AuthLayout } from "../ui/AuthLayaout.tsx";
-import { RegisterForm } from "../ui/RegisterForm.tsx";
+import { AuthLayout } from "../components/AuthLayaout.tsx";
+import { RegisterForm } from "../components/RegisterForm.tsx";
 
 export function RegisterPage() {
   return (

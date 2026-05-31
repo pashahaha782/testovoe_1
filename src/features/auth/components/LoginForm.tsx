@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { login } from "../../../shared/stores/authStore.ts";
+import { login } from "../../../shared/stores/userStore.ts";
 
 const loginSchema = yup.object({
   email: yup.string().email("Неверный email").required("Email обязателен"),

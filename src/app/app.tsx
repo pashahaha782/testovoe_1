@@ -3,10 +3,10 @@ import { Header } from "../shared/ui/Header/Header.tsx";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "../theme.ts";
-import { useAuthorizedUser } from "../shared/stores/authStore.ts";
+import { useIsAuthenticated } from "../shared/stores/userStore.ts";
 
 export function App() {
-  const authorized = useAuthorizedUser();
+  const authorized = useIsAuthenticated();
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

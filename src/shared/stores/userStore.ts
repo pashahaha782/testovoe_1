@@ -31,7 +31,7 @@ const initialState: IInitialState = {
   users: MOCK_USERS,
 };
 
-export const authStore: StateCreator<IAuthState> = (set, get) => ({
+export const userStore: StateCreator<IAuthState> = (set, get) => ({
   ...initialState,
 
   login: async (email: string, password: string) => {
@@ -84,7 +84,7 @@ export const authStore: StateCreator<IAuthState> = (set, get) => ({
 });
 
 export const useAuthStore = create<IAuthState>()(
-  persist(authStore, {
+  persist(userStore, {
     name: "auth-storage",
     storage: createJSONStorage(() => localStorage),
     partialize: (state) => ({

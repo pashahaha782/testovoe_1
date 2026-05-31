@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ROUTES } from "../../../shared/routes/routes.ts";
-import { AuthLayout } from "../ui/AuthLayaout.tsx";
-import { LoginForm } from "../ui/LoginForm.tsx";
+import { AuthLayout } from "../components/AuthLayaout.tsx";
+import { LoginForm } from "../components/LoginForm.tsx";
 
 export function LoginPage() {
   return (

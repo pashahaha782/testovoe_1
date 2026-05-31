@@ -8,23 +8,23 @@ export const router = createBrowserRouter([
     children: [
       {
         path: ROUTES.LOGIN,
-        lazy: () => import("../features/auth/pages/login.page.tsx"),
+        lazy: () => import("../features/auth/pages/LoginPage.tsx"),
       },
       {
         path: ROUTES.REGISTER,
-        lazy: () => import("../features/auth/pages/register.page.tsx"),
+        lazy: () => import("../features/auth/pages/RegisterPage.tsx"),
       },
       {
         path: ROUTES.CATALOG,
-        lazy: () => import("../pages/catalog.page"),
+        lazy: () => import("../pages/CatalogPage.tsx"),
       },
       {
         path: ROUTES.PRODUCT,
-        lazy: () => import("../pages/product.page"),
+        lazy: () => import("../pages/ProductPage.tsx"),
       },
       {
         path: ROUTES.HOME,
-        lazy: () => import("../pages/home.page"),
+        lazy: () => import("../pages/HomePage.tsx"),
       },
       {
         path: "*",
