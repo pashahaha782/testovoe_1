@@ -41,7 +41,7 @@ export function Header() {
             onClick={() => logout()}
             sx={{
               "&:hover": {
-                backgroundColor: "error.dark",
+                backgroundColor: "error.light",
                 borderColor: "error.main",
                 color: "text.secondary",
               },

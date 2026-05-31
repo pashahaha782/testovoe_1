@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { register as registerAction } from "../../../shared/stores/userStore.ts";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../../shared/routes/routes.ts";
 
 const registerSchema = yup.object({
   email: yup.string().email("Неверный email").required("Email обязателен"),
@@ -22,6 +24,7 @@ type RegisterFormData = yup.InferType<typeof registerSchema>;
 export function RegisterForm() {
   const [submitError, setSubmitError] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -35,13 +38,20 @@ export function RegisterForm() {
     setSubmitError("");
     setLoading(true);
 
-    const success = await registerAction(data.email, data.password);
+    try {
+      const success = await registerAction(data.email, data.password);
 
-    if (!success) {
+      if (success) {
+        navigate(ROUTES.HOME);
+        return;
+      }
+
       setSubmitError("Пользователь с таким email уже существует");
+    } catch {
+      setSubmitError("Произошла ошибка при регистрации");
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (

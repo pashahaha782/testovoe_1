@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { login } from "../../../shared/stores/userStore.ts";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../../shared/routes/routes.ts";
 
 const loginSchema = yup.object({
   email: yup.string().email("Неверный email").required("Email обязателен"),
@@ -18,6 +20,7 @@ type LoginFormData = yup.InferType<typeof loginSchema>;
 export function LoginForm() {
   const [submitError, setSubmitError] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -31,13 +34,20 @@ export function LoginForm() {
     setSubmitError("");
     setLoading(true);
 
-    const success = await login(data.email, data.password);
+    try {
+      const success = await login(data.email, data.password);
 
-    if (!success) {
+      if (success) {
+        navigate(ROUTES.HOME);
+        return;
+      }
+
       setSubmitError("Неверный email или пароль");
+    } catch {
+      setSubmitError("Произошла ошибка при входе");
+    } finally {
+      setLoading(false); // 👈 finally гарантирует снятие загрузки
     }
-
-    setLoading(false);
   };
 
   return (

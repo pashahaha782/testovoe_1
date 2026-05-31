@@ -79,7 +79,7 @@ export const userStore: StateCreator<IAuthState> = (set, get) => ({
   },
 
   logout: () => {
-    set({ user: null, isAuthenticated: false });
+    set(initialState);
   },
 });
 
