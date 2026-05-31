@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { AppHeader } from "../shared/ui/Header/Header.tsx";
+import { Header } from "../shared/ui/Header/Header.tsx";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "../theme.ts";
@@ -9,7 +9,7 @@ export function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <div>
-        <AppHeader />
+        <Header />
         <Outlet />
       </div>
     </ThemeProvider>

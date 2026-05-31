@@ -1,7 +1,9 @@
-import "react-router-dom"
+import "react-router-dom";
 
 export const ROUTES = {
   HOME: "/",
+  LOGIN: "/login",
+  REGISTER: "/register",
   CATALOG: "/catalog",
   PRODUCT: "/product/:productId",
 } as const;

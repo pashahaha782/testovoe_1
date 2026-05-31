@@ -7,6 +7,14 @@ export const router = createBrowserRouter([
     element: <App />,
     children: [
       {
+        path: ROUTES.LOGIN,
+        lazy: () => import("../features/auth/pages/login.page.tsx"),
+      },
+      {
+        path: ROUTES.REGISTER,
+        lazy: () => import("../features/auth/pages/register.page.tsx"),
+      },
+      {
         path: ROUTES.CATALOG,
         lazy: () => import("../pages/catalog.page"),
       },
