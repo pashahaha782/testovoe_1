@@ -1,22 +1,40 @@
 import { Alert, Box, Button, TextField } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import { login } from "../../../shared/stores/authStore.ts";
 
+const loginSchema = yup.object({
+  email: yup.string().email("Неверный email").required("Email обязателен"),
+  password: yup
+    .string()
+    .min(6, "Пароль должен быть не менее 6 символов")
+    .required("Пароль обязателен"),
+});
+
+type LoginFormData = yup.InferType<typeof loginSchema>;
+
 export function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [submitError, setSubmitError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: yupResolver(loginSchema),
+  });
+
+  const onSubmit = async (data: LoginFormData) => {
+    setSubmitError("");
     setLoading(true);
 
-    const success = await login(email, password);
+    const success = await login(data.email, data.password);
 
     if (!success) {
-      setError("Неверный email или пароль");
+      setSubmitError("Неверный email или пароль");
     }
 
     setLoading(false);
@@ -25,30 +43,29 @@ export function LoginForm() {
   return (
     <Box
       component="form"
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit(onSubmit)}
       sx={{ display: "flex", flexDirection: "column", gap: 2 }}
     >
       <TextField
         fullWidth
         label="Email"
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        {...register("email")}
+        error={!!errors.email}
+        helperText={errors.email?.message}
         disabled={loading}
-        required
       />
 
       <TextField
         fullWidth
         label="Пароль"
         type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        {...register("password")}
+        error={!!errors.password}
+        helperText={errors.password?.message}
         disabled={loading}
-        required
       />
 
-      {error && <Alert severity="error">{error}</Alert>}
+      {submitError && <Alert severity="error">{submitError}</Alert>}
 
       <Button type="submit" variant="contained" fullWidth disabled={loading}>
         {loading ? "Загрузка..." : "Войти"}
