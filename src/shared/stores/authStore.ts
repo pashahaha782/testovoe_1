@@ -90,6 +90,7 @@ export const useAuthStore = create<IAuthState>()(
     partialize: (state) => ({
       user: state.user,
       isAuthenticated: state.isAuthenticated,
+      users: state.users,
     }),
   }),
 );
