@@ -12,7 +12,7 @@ export function PhotoGallery({ photos, title, subtitle }: PhotoGalleryProps) {
   if (!photos.length) return null;
 
   return (
-    <Box component="section" aria-label="Галерея фотографий">
+    <Box component="section" aria-label="Галерея фотографий" sx={{ mb: 6 }}>
       {title && (
         <Box sx={{ mb: 4, textAlign: "center" }}>
           <Typography

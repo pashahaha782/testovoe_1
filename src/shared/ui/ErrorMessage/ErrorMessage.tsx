@@ -5,7 +5,7 @@ interface ErrorMessageProps {
 }
 
 export const ErrorMessage = ({ error }: ErrorMessageProps) => (
-  <Container>
+  <Container sx={{ mb: 4 }}>
     <Alert severity="error">{error}</Alert>
   </Container>
 );
