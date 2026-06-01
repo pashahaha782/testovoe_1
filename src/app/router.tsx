@@ -3,6 +3,7 @@ import { createBrowserRouter, redirect } from "react-router-dom";
 import { App } from "./App.tsx";
 import { ProtectedRoute } from "./ProtectedRoute.tsx";
 import { Header } from "../shared/ui/Header/Header.tsx";
+import { Footer } from "../shared/ui/Footer/Footer.tsx";
 
 export const router = createBrowserRouter([
   {
@@ -13,6 +14,7 @@ export const router = createBrowserRouter([
           <>
             <Header />
             <ProtectedRoute />
+            <Footer />
           </>
         ),
         children: [
