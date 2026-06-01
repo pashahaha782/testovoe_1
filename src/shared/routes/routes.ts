@@ -5,12 +5,12 @@ export const ROUTES = {
   LOGIN: "/login",
   REGISTER: "/register",
   CATALOG: "/catalog",
-  PRODUCT: "/product/:productId",
+  PICTURE: "/picture/:pictureId",
 } as const;
 
 export type PathParams = {
-  [ROUTES.PRODUCT]: {
-    productId: string;
+  [ROUTES.PICTURE]: {
+    pictureId: string;
   };
 };
 

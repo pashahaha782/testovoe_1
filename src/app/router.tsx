@@ -18,10 +18,10 @@ export const router = createBrowserRouter([
         children: [
           {
             path: ROUTES.CATALOG,
-            lazy: () => import("../pages/CatalogPage.tsx"),
+            lazy: () => import("../features/catalog/pages/CatalogPage.tsx"),
           },
           {
-            path: ROUTES.PRODUCT,
+            path: ROUTES.PICTURE,
             lazy: () => import("../pages/ProductPage.tsx"),
           },
         ],

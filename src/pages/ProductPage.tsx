@@ -1,13 +1,9 @@
 import { useParams } from "react-router-dom";
-import {type PathParams, ROUTES} from "../shared/routes/routes.ts";
+import { type PathParams, ROUTES } from "../shared/routes/routes.ts";
 
 function ProductPage() {
-  const params = useParams<PathParams[typeof ROUTES.PRODUCT]>();
-  return (
-    <div>
-      Product page {params.productId}
-    </div>
-  )
+  const params = useParams<PathParams[typeof ROUTES.PICTURE]>();
+  return <div>Product page {params.pictureId}</div>;
 }
 
-export const Component = ProductPage
+export const Component = ProductPage;

@@ -1,8 +1,11 @@
 import { logout, useAuthorizedUser } from "../../stores/userStore.ts";
 import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../routes/routes.ts";
 
 export function Header() {
   const session = useAuthorizedUser();
+  const navigate = useNavigate();
 
   if (!session) {
     return null;
@@ -27,12 +30,25 @@ export function Header() {
           px: 2,
         }}
       >
-        <Typography variant="h6" sx={{ fontWeight: 600 }}>
+        <Typography
+          variant="h5"
+          component="h1"
+          sx={{
+            fontWeight: 600,
+            cursor: "pointer",
+            "&:hover": { opacity: 0.8 },
+          }}
+          onClick={() => navigate(ROUTES.HOME)}
+        >
           PhotoSphere
         </Typography>
 
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <Typography variant="body2" color="text.secondary">
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ display: { xs: "none", sm: "block" } }}
+          >
             {session?.email}
           </Typography>
           <Button
@@ -40,10 +56,11 @@ export function Header() {
             size="small"
             onClick={() => logout()}
             sx={{
+              color: "text.secondary",
+              borderColor: "text.secondary",
               "&:hover": {
                 backgroundColor: "error.light",
                 borderColor: "error.main",
-                color: "text.secondary",
               },
             }}
           >

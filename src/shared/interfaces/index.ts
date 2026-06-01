@@ -17,3 +17,11 @@ export interface IInitialState {
 }
 
 export interface IAuthState extends IInitialState, IAuthActions {}
+
+export interface Photo {
+  albumId: number;
+  id: number;
+  title: string;
+  url: string;
+  thumbnailUrl: string;
+}
