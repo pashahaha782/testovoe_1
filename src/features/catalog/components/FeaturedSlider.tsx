@@ -19,7 +19,6 @@ export const FeaturedSlider = ({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [showLeftButton, setShowLeftButton] = useState(false);
   const [showRightButton, setShowRightButton] = useState(false);
-  const featuredRef = useRef<HTMLElement>(null);
 
   const checkScrollButtons = () => {
     if (scrollContainerRef.current) {
@@ -80,7 +79,6 @@ export const FeaturedSlider = ({
     <Box
       component="section"
       sx={{ mb: 4, position: "relative", scrollMarginTop: "64px" }}
-      ref={featuredRef}
       id="featured"
     >
       <Typography
@@ -138,8 +136,8 @@ export const FeaturedSlider = ({
               flex: "0 0 auto",
               width: {
                 xs: "100%",
-                sm: "calc(50% - 16px)",
-                md: "calc(33.333% - 16px)",
+                md: "calc(50% - 16px)",
+                lg: "calc(33.333% - 16px)",
               },
               scrollSnapAlign: "start",
               cursor: "pointer",

@@ -1,7 +1,6 @@
 import { Box, Grid, Typography } from "@mui/material";
 import { PhotoCard } from "./PhotoCard";
 import type { Photo } from "../../../shared/interfaces";
-import { useRef } from "react";
 
 interface PhotoGalleryProps {
   photos: Photo[];
@@ -10,8 +9,6 @@ interface PhotoGalleryProps {
 }
 
 export function PhotoGallery({ photos, title, subtitle }: PhotoGalleryProps) {
-  const galleryRef = useRef<HTMLElement>(null);
-
   if (!photos.length) return null;
 
   return (
@@ -19,7 +16,6 @@ export function PhotoGallery({ photos, title, subtitle }: PhotoGalleryProps) {
       component="section"
       aria-label="Галерея фотографий"
       sx={{ mb: 6, scrollMarginTop: "64px" }}
-      ref={galleryRef}
       id="gallery"
     >
       {title && (
@@ -42,14 +38,27 @@ export function PhotoGallery({ photos, title, subtitle }: PhotoGalleryProps) {
 
       <Grid
         container
-        spacing={3}
         component="ul"
-        sx={{ listStyle: "none", p: 0 }}
+        sx={{
+          listStyle: "none",
+          p: 0,
+          justifyContent: "space-between",
+        }}
       >
         {photos.map((photo) => (
-          <li key={photo.id}>
+          <Box
+            component="li"
+            key={photo.id}
+            sx={{
+              width: {
+                xs: "100%",
+                md: "calc(50% - 8px)",
+              },
+              mb: 3,
+            }}
+          >
             <PhotoCard photo={photo} />
-          </li>
+          </Box>
         ))}
       </Grid>
     </Box>
