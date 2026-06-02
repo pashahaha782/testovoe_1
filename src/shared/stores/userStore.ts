@@ -7,21 +7,25 @@ const MOCK_USERS: IUser[] = [
     id: "1",
     email: "anna@photographer.com",
     password: "anna123",
+    isAdmin: true,
   },
   {
     id: "2",
     email: "mike@photographer.com",
     password: "mike123",
+    isAdmin: true,
   },
   {
     id: "3",
     email: "elena@photographer.com",
     password: "elena123",
+    isAdmin: true,
   },
   {
     id: "4",
     email: "admin@photographer.com",
     password: "admin123",
+    isAdmin: true,
   },
 ];
 
@@ -38,6 +42,7 @@ interface IInitialState {
 }
 
 interface IAuthState extends IInitialState, IAuthActions {}
+
 const initialState: IInitialState = {
   user: null,
   isAuthenticated: false,
@@ -51,11 +56,14 @@ const userStore: StateCreator<IAuthState> = (set, get) => ({
     return new Promise((resolve) => {
       setTimeout(() => {
         const user = get().users.find(
-          (u) => u.email === email && u.password === password,
+          (item) => item.email === email && item.password === password,
         );
 
         if (user) {
-          set({ user, isAuthenticated: true });
+          set({
+            user,
+            isAuthenticated: true,
+          });
           resolve(true);
         } else {
           resolve(false);
@@ -68,7 +76,7 @@ const userStore: StateCreator<IAuthState> = (set, get) => ({
     return new Promise((resolve) => {
       setTimeout(() => {
         const users = get().users;
-        const exists = users.some((u) => u.email === email);
+        const exists = users.some((item) => item.email === email);
 
         if (exists) {
           resolve(false);
@@ -77,6 +85,7 @@ const userStore: StateCreator<IAuthState> = (set, get) => ({
             id: Date.now().toString(),
             email,
             password,
+            isAdmin: false,
           };
 
           const updatedUsers = [...users, newUser];
@@ -111,6 +120,8 @@ export const useAuthStore = create<IAuthState>()(
 export const useAuthorizedUser = () => useAuthStore((state) => state.user);
 export const useIsAuthenticated = () =>
   useAuthStore((state) => state.isAuthenticated);
+export const useIsAdmin = () =>
+  useAuthStore((state) => state.user?.isAdmin === true);
 
 export const login = (email: string, password: string) =>
   useAuthStore.getState().login(email, password);

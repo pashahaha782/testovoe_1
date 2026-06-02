@@ -23,6 +23,14 @@ export const router = createBrowserRouter([
             lazy: () => import("../features/catalog/pages/CatalogPage.tsx"),
           },
           {
+            path: ROUTES.PICTURE_CREATE,
+            lazy: () => import("../features/picture/pages/PhotoFormPage.tsx"),
+          },
+          {
+            path: ROUTES.PICTURE_EDIT,
+            lazy: () => import("../features/picture/pages/PhotoFormPage.tsx"),
+          },
+          {
             path: ROUTES.PICTURE,
             lazy: () => import("../features/picture/pages/PicturePage.tsx"),
           },
