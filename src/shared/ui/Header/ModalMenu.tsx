@@ -18,6 +18,7 @@ import StarIcon from "@mui/icons-material/Star";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { ThemeToggle } from "../ThemeToggle/ThemeToggle.tsx";
 
 interface ModalMenuProps {
   open: boolean;
@@ -63,7 +64,7 @@ export function ModalMenu({ open, onClose }: ModalMenuProps) {
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
       }
-    }, 100);
+    }, 500);
   };
 
   const handleLogout = () => {
@@ -134,19 +135,23 @@ export function ModalMenu({ open, onClose }: ModalMenuProps) {
                 PhotoSphere
               </Typography>
 
-              <IconButton
-                onClick={onClose}
-                aria-label="Закрыть меню"
-                sx={{
-                  color: "text.secondary",
-                  "&:hover": {
-                    color: "error.main",
-                    backgroundColor: "rgba(211, 47, 47, 0.08)",
-                  },
-                }}
-              >
-                <CloseIcon />
-              </IconButton>
+              {/* Группируем ThemeToggle и кнопку закрытия */}
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <ThemeToggle />
+                <IconButton
+                  onClick={onClose}
+                  aria-label="Закрыть меню"
+                  sx={{
+                    color: "text.secondary",
+                    "&:hover": {
+                      color: "error.main",
+                      backgroundColor: "rgba(211, 47, 47, 0.08)",
+                    },
+                  }}
+                >
+                  <CloseIcon />
+                </IconButton>
+              </Box>
             </Toolbar>
           </AppBar>
 

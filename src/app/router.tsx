@@ -4,6 +4,7 @@ import { App } from "./App.tsx";
 import { ProtectedRoute } from "./ProtectedRoute.tsx";
 import { Header } from "../shared/ui/Header/Header.tsx";
 import { Footer } from "../shared/ui/Footer/Footer.tsx";
+import { GuestLayout } from "../shared/ui/GuestLayout/GuestLayout.tsx";
 
 export const router = createBrowserRouter([
   {
@@ -37,12 +38,17 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        path: ROUTES.LOGIN,
-        lazy: () => import("../features/auth/pages/LoginPage.tsx"),
-      },
-      {
-        path: ROUTES.REGISTER,
-        lazy: () => import("../features/auth/pages/RegisterPage.tsx"),
+        element: <GuestLayout />,
+        children: [
+          {
+            path: ROUTES.LOGIN,
+            lazy: () => import("../features/auth/pages/LoginPage.tsx"),
+          },
+          {
+            path: ROUTES.REGISTER,
+            lazy: () => import("../features/auth/pages/RegisterPage.tsx"),
+          },
+        ],
       },
       {
         path: ROUTES.HOME,
