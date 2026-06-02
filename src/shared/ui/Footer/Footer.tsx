@@ -11,6 +11,9 @@ export function Footer() {
         backgroundColor: "background.default",
         borderTop: "1px solid",
         borderColor: "divider",
+        position: "sticky",
+        top: "100vh",
+        width: "100%",
       }}
     >
       <Toolbar

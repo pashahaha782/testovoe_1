@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Card, CardMedia, CardContent, Typography } from "@mui/material";
+import { href, useNavigate } from "react-router-dom";
 import type { Photo } from "../../../shared/interfaces";
+import { ROUTES } from "../../../shared/routes/routes";
 import { getReliableImageUrl } from "../../../shared/utils/imageHelpers";
 
 interface PhotoCardProps {
@@ -8,6 +10,7 @@ interface PhotoCardProps {
 }
 
 export function PhotoCard({ photo }: PhotoCardProps) {
+  const navigate = useNavigate();
   const [imgError, setImgError] = useState(false);
   const imageUrl = getReliableImageUrl(photo.id);
 
@@ -18,9 +21,14 @@ export function PhotoCard({ photo }: PhotoCardProps) {
     setImgError(true);
   };
 
+  const handleClick = () => {
+    navigate(href(ROUTES.PICTURE, { pictureId: String(photo.id) }));
+  };
+
   return (
     <article>
       <Card
+        onClick={handleClick}
         sx={{
           height: "100%",
           display: "flex",
