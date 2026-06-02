@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import type { Photo } from "../../../shared/interfaces";
 import { fetchPhotoAuthor, fetchPhotoById } from "../api";
+import type { Photo } from "../../../shared/interfaces";
+import { usePhotoStore } from "../../../shared/stores/photoStore";
+import { findLocalPhoto } from "../../../shared/utils/photoMerge";
 
 interface UsePhotoResult {
   photo: Photo | null;
@@ -13,13 +15,19 @@ const isValidPictureId = (pictureId: string | undefined): pictureId is string =>
   pictureId != null && pictureId !== "" && !Number.isNaN(Number(pictureId));
 
 export const usePhoto = (pictureId: string | undefined): UsePhotoResult => {
-  const [photo, setPhoto] = useState<Photo | null>(null);
-  const [author, setAuthor] = useState<string | null>(null);
+  const createdPhotos = usePhotoStore((state) => state.createdPhotos);
+  const [remotePhoto, setRemotePhoto] = useState<Photo | null>(null);
+  const [remoteAuthor, setRemoteAuthor] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const isValid = isValidPictureId(pictureId);
+  const numericId = isValid ? Number(pictureId) : null;
+  const localPhoto =
+    numericId != null ? findLocalPhoto(numericId, createdPhotos) : undefined;
+
   useEffect(() => {
-    if (!isValidPictureId(pictureId)) {
+    if (!isValid || numericId == null || localPhoto) {
       return;
     }
 
@@ -29,18 +37,20 @@ export const usePhoto = (pictureId: string | undefined): UsePhotoResult => {
       try {
         setLoading(true);
         setError(null);
+        setRemotePhoto(null);
+        setRemoteAuthor(null);
 
-        const data = await fetchPhotoById(Number(pictureId));
+        const data = await fetchPhotoById(numericId);
         const authorName = await fetchPhotoAuthor(data.albumId);
 
         if (!cancelled) {
-          setPhoto(data);
-          setAuthor(authorName);
+          setRemotePhoto(data);
+          setRemoteAuthor(authorName);
         }
       } catch {
         if (!cancelled) {
-          setPhoto(null);
-          setAuthor(null);
+          setRemotePhoto(null);
+          setRemoteAuthor(null);
           setError("Не удалось загрузить фотографию");
         }
       } finally {
@@ -55,9 +65,9 @@ export const usePhoto = (pictureId: string | undefined): UsePhotoResult => {
     return () => {
       cancelled = true;
     };
-  }, [pictureId]);
+  }, [isValid, numericId, localPhoto]);
 
-  if (!isValidPictureId(pictureId)) {
+  if (!isValid) {
     return {
       photo: null,
       author: null,
@@ -66,5 +76,19 @@ export const usePhoto = (pictureId: string | undefined): UsePhotoResult => {
     };
   }
 
-  return { photo, author, loading, error };
+  if (localPhoto) {
+    return {
+      photo: localPhoto,
+      author: localPhoto.author ?? null,
+      loading: false,
+      error: null,
+    };
+  }
+
+  return {
+    photo: remotePhoto,
+    author: remoteAuthor,
+    loading,
+    error,
+  };
 };

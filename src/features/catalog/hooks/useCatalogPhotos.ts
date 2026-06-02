@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { fetchPhotos } from "../api";
 import type { Photo } from "../../../shared/interfaces";
+import { usePhotoStore } from "../../../shared/stores/photoStore";
+import { mergePhotos } from "../../../shared/utils/photoMerge";
 
 interface UseCatalogPhotosResult {
   photos: Photo[];
@@ -11,16 +13,17 @@ interface UseCatalogPhotosResult {
 export const useCatalogPhotos = (
   limit: number = 12,
 ): UseCatalogPhotosResult => {
-  const [photos, setPhotos] = useState<Photo[]>([]);
+  const [seedPhotos, setSeedPhotos] = useState<Photo[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const createdPhotos = usePhotoStore((state) => state.createdPhotos);
 
   useEffect(() => {
     const loadPhotos = async () => {
       try {
         setLoading(true);
         const data = await fetchPhotos(limit);
-        setPhotos(data);
+        setSeedPhotos(data);
       } catch {
         setError("Не удалось загрузить фотографии");
       } finally {
@@ -29,7 +32,12 @@ export const useCatalogPhotos = (
     };
 
     void loadPhotos();
-  }, []);
+  }, [limit]);
+
+  const photos = useMemo(
+    () => mergePhotos(seedPhotos, createdPhotos, {}, []),
+    [seedPhotos, createdPhotos],
+  );
 
   return { photos, loading, error };
 };

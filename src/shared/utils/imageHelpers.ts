@@ -14,6 +14,6 @@ const LOCAL_IMAGES = [
 ];
 
 export const getReliableImageUrl = (photoId: number): string => {
-  const index = (photoId - 1) % LOCAL_IMAGES.length;
+  const index = Math.abs(photoId - 1) % LOCAL_IMAGES.length;
   return LOCAL_IMAGES[index];
 };

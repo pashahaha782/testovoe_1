@@ -1,19 +1,22 @@
 import { useRef, useState, useEffect } from "react";
-import { Box, Typography, IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { PhotoCard } from "./PhotoCard";
+import { SectionHeading } from "./SectionHeading";
 import type { Photo } from "../../../shared/interfaces";
 
 interface FeaturedSliderProps {
   photos: Photo[];
   title: string;
+  subtitle?: string;
   onPhotoClick: (index: number) => void;
 }
 
 export const FeaturedSlider = ({
   photos,
   title,
+  subtitle,
   onPhotoClick,
 }: FeaturedSliderProps) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -31,7 +34,7 @@ export const FeaturedSlider = ({
 
   const scroll = (direction: "left" | "right") => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 300;
+      const scrollAmount = 320;
       const newScrollLeft =
         scrollContainerRef.current.scrollLeft +
         (direction === "left" ? -scrollAmount : scrollAmount);
@@ -78,30 +81,57 @@ export const FeaturedSlider = ({
   return (
     <Box
       component="section"
-      sx={{ mb: 4, position: "relative", scrollMarginTop: "64px" }}
+      sx={{
+        position: "relative",
+        scrollMarginTop: "80px",
+        py: { xs: 5, md: 7 },
+        px: { xs: 2, md: 4 },
+        mx: { xs: -2, sm: 0 },
+        mb: { xs: 5, md: 8 },
+        borderRadius: { sm: 4 },
+        background:
+          "linear-gradient(145deg, #141414 0%, #1f1f1f 55%, #2a2418 100%)",
+        overflow: "hidden",
+        "&::before": {
+          content: '""',
+          position: "absolute",
+          top: -120,
+          right: -80,
+          width: 320,
+          height: 320,
+          borderRadius: "50%",
+          background:
+            "radial-gradient(circle, rgba(196,169,98,0.18) 0%, transparent 70%)",
+          pointerEvents: "none",
+        },
+      }}
       id="featured"
     >
-      <Typography
-        variant="h4"
-        component="h2"
-        gutterBottom
-        sx={{ fontWeight: 600, mb: 3, textAlign: "center" }}
-      >
-        {title}
-      </Typography>
+      <SectionHeading
+        label="Избранное"
+        title={title}
+        subtitle={subtitle ?? "Лучшие работы, отобранные редакцией PhotoSphere"}
+        light
+      />
 
       {showLeftButton && (
         <IconButton
           onClick={() => scroll("left")}
+          aria-label="Прокрутить влево"
           sx={{
             position: "absolute",
-            left: -20,
-            top: "50%",
+            left: { xs: 8, md: 16 },
+            top: "58%",
             transform: "translateY(-50%)",
             zIndex: 2,
-            backgroundColor: "background.paper",
-            boxShadow: 3,
-            "&:hover": { backgroundColor: "primary.main", color: "white" },
+            backgroundColor: "rgba(255,255,255,0.12)",
+            color: "common.white",
+            backdropFilter: "blur(8px)",
+            border: "1px solid rgba(255,255,255,0.12)",
+            "&:hover": {
+              backgroundColor: "primary.main",
+              color: "primary.contrastText",
+            },
           }}
         >
           <ChevronLeftIcon />
@@ -112,14 +142,16 @@ export const FeaturedSlider = ({
         ref={scrollContainerRef}
         sx={{
           display: "flex",
-          gap: 2,
+          gap: 2.5,
           overflowX: "auto",
           overflowY: "hidden",
           scrollSnapType: "x mandatory",
-          pb: 2,
-          "&::-webkit-scrollbar": { height: 8 },
+          pb: 1,
+          mx: -0.5,
+          px: 0.5,
+          "&::-webkit-scrollbar": { height: 6 },
           "&::-webkit-scrollbar-track": {
-            backgroundColor: "background.paper",
+            backgroundColor: "rgba(255,255,255,0.06)",
             borderRadius: 4,
           },
           "&::-webkit-scrollbar-thumb": {
@@ -131,21 +163,18 @@ export const FeaturedSlider = ({
         {photos.map((photo, index) => (
           <Box
             key={photo.id}
-            onClick={() => onPhotoClick(index)}
             sx={{
               flex: "0 0 auto",
               width: {
-                xs: "100%",
-                md: "calc(50% - 16px)",
-                lg: "calc(33.333% - 16px)",
+                xs: "85%",
+                sm: "55%",
+                md: "calc(40% - 12px)",
+                lg: "calc(32% - 12px)",
               },
               scrollSnapAlign: "start",
-              cursor: "pointer",
-              transition: "transform 0.3s ease",
-              "&:hover": { transform: "scale(1.02)" },
             }}
           >
-            <PhotoCard photo={photo} />
+            <PhotoCard photo={photo} onClick={() => onPhotoClick(index)} />
           </Box>
         ))}
       </Box>
@@ -153,15 +182,21 @@ export const FeaturedSlider = ({
       {showRightButton && (
         <IconButton
           onClick={() => scroll("right")}
+          aria-label="Прокрутить вправо"
           sx={{
             position: "absolute",
-            right: -20,
-            top: "50%",
+            right: { xs: 8, md: 16 },
+            top: "58%",
             transform: "translateY(-50%)",
             zIndex: 2,
-            backgroundColor: "background.paper",
-            boxShadow: 3,
-            "&:hover": { backgroundColor: "primary.main", color: "white" },
+            backgroundColor: "rgba(255,255,255,0.12)",
+            color: "common.white",
+            backdropFilter: "blur(8px)",
+            border: "1px solid rgba(255,255,255,0.12)",
+            "&:hover": {
+              backgroundColor: "primary.main",
+              color: "primary.contrastText",
+            },
           }}
         >
           <ChevronRightIcon />

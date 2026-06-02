@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { fetchPhotos } from "../api";
 import type { Photo } from "../../../shared/interfaces";
+import { usePhotoStore } from "../../../shared/stores/photoStore";
+import { mergePhotos } from "../../../shared/utils/photoMerge";
 
 interface UseFeaturedPhotosResult {
   featuredPhotos: Photo[];
@@ -11,16 +13,17 @@ interface UseFeaturedPhotosResult {
 export const useFeaturedPhotos = (
   limit: number = 7,
 ): UseFeaturedPhotosResult => {
-  const [featuredPhotos, setFeaturedPhotos] = useState<Photo[]>([]);
+  const [seedPhotos, setSeedPhotos] = useState<Photo[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const createdPhotos = usePhotoStore((state) => state.createdPhotos);
 
   useEffect(() => {
     const loadPhotos = async () => {
       try {
         setLoading(true);
         const data = await fetchPhotos(limit);
-        setFeaturedPhotos(data);
+        setSeedPhotos(data);
       } catch {
         setError("Не удалось загрузить фотографии");
       } finally {
@@ -29,7 +32,12 @@ export const useFeaturedPhotos = (
     };
 
     void loadPhotos();
-  }, []);
+  }, [limit]);
+
+  const featuredPhotos = useMemo(() => {
+    const merged = mergePhotos(seedPhotos, createdPhotos, {}, []);
+    return merged.slice(0, limit);
+  }, [seedPhotos, createdPhotos, limit]);
 
   return { featuredPhotos, loading, error };
 };
