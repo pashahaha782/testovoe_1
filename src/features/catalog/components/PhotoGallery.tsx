@@ -57,7 +57,7 @@ export function PhotoGallery({ photos, title, subtitle }: PhotoGalleryProps) {
               mb: 3,
             }}
           >
-            <PhotoCard photo={photo} />
+            <PhotoCard photo={photo} withDetails />
           </Box>
         ))}
       </Grid>

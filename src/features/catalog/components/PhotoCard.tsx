@@ -7,9 +7,10 @@ import { getReliableImageUrl } from "../../../shared/utils/imageHelpers";
 
 interface PhotoCardProps {
   photo: Photo;
+  withDetails?: boolean;
 }
 
-export function PhotoCard({ photo }: PhotoCardProps) {
+export function PhotoCard({ photo, withDetails }: PhotoCardProps) {
   const navigate = useNavigate();
   const [imgError, setImgError] = useState(false);
   const imageUrl = getReliableImageUrl(photo.id);
@@ -28,7 +29,7 @@ export function PhotoCard({ photo }: PhotoCardProps) {
   return (
     <article>
       <Card
-        onClick={handleClick}
+        {...(withDetails && { onClick: handleClick })}
         sx={{
           height: "100%",
           display: "flex",
