@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { PhotoGallery } from "../components/PhotoGallery";
 import { FeaturedSlider } from "../components/FeaturedSlider";
 import { LightboxGallery } from "../components/LightboxGallery";
+import { CatalogHero } from "../components/CatalogHero";
 import { useCatalogPhotos } from "../hooks/useCatalogPhotos";
 import { LoadingSpinner } from "../../../shared/ui/LoadingSpinner/LoadingSpinner";
 import { ErrorMessage } from "../../../shared/ui/ErrorMessage/ErrorMessage";
@@ -44,6 +45,8 @@ function CatalogPage() {
     setIsLightboxOpen(true);
   };
 
+  const heroPhoto = featuredPhotos.featuredPhotos[0] ?? catalogPhotos.photos[0];
+
   return (
     <Box
       component="main"
@@ -57,6 +60,11 @@ function CatalogPage() {
 
       {!isLoading && !error && (
         <>
+          <CatalogHero
+            photo={heroPhoto}
+            photoCount={catalogPhotos.photos.length}
+          />
+
           <Container maxWidth="xl" sx={{ pb: { xs: 5, md: 8 } }}>
             {isAdmin && (
               <Box
