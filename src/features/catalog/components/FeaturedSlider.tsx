@@ -19,6 +19,7 @@ export const FeaturedSlider = ({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [showLeftButton, setShowLeftButton] = useState(false);
   const [showRightButton, setShowRightButton] = useState(false);
+  const featuredRef = useRef<HTMLElement>(null);
 
   const checkScrollButtons = () => {
     if (scrollContainerRef.current) {
@@ -76,7 +77,12 @@ export const FeaturedSlider = ({
   }, []);
 
   return (
-    <Box component="section" sx={{ mb: 4, position: "relative" }}>
+    <Box
+      component="section"
+      sx={{ mb: 4, position: "relative", scrollMarginTop: "64px" }}
+      ref={featuredRef}
+      id="featured"
+    >
       <Typography
         variant="h4"
         component="h2"

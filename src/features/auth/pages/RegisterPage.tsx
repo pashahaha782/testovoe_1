@@ -7,7 +7,7 @@ export function RegisterPage() {
   return (
     <AuthLayout
       form={<RegisterForm />}
-      title="Вход в систему"
+      title="Регистрация"
       description="Введите ваш email и пароль для регистрации в системe"
       footerText={
         <span>

@@ -1,6 +1,6 @@
 import { create, type StateCreator } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import type { IAuthState, IInitialState, IUser } from "../interfaces";
+import type { IUser } from "../interfaces";
 
 const MOCK_USERS: IUser[] = [
   {
@@ -25,13 +25,26 @@ const MOCK_USERS: IUser[] = [
   },
 ];
 
+interface IAuthActions {
+  login: (email: string, password: string) => Promise<boolean>;
+  register: (email: string, password: string) => Promise<boolean>;
+  logout: () => void;
+}
+
+interface IInitialState {
+  user: IUser | null;
+  isAuthenticated: boolean;
+  users: IUser[];
+}
+
+interface IAuthState extends IInitialState, IAuthActions {}
 const initialState: IInitialState = {
   user: null,
   isAuthenticated: false,
   users: MOCK_USERS,
 };
 
-export const userStore: StateCreator<IAuthState> = (set, get) => ({
+const userStore: StateCreator<IAuthState> = (set, get) => ({
   ...initialState,
 
   login: async (email: string, password: string) => {
