@@ -38,7 +38,7 @@ export function Header() {
         >
           <Typography
             variant="h5"
-            component="h1"
+            component="a"
             sx={{
               fontWeight: 600,
               cursor: "pointer",

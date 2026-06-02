@@ -85,6 +85,7 @@ export function CatalogHero({ photo, photoCount }: CatalogHeroProps) {
 
           <Typography
             variant="h6"
+            component="span"
             sx={{
               color: "rgba(255,255,255,0.78)",
               fontWeight: 400,

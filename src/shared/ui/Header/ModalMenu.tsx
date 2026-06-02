@@ -121,7 +121,7 @@ export function ModalMenu({ open, onClose }: ModalMenuProps) {
             >
               <Typography
                 variant="h5"
-                component="span"
+                component="a"
                 sx={{
                   fontWeight: 600,
                   cursor: "pointer",
