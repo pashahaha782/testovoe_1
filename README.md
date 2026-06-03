@@ -1,73 +1,76 @@
-# React + TypeScript + Vite
+# PhotoSphere
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Веб-приложение для просмотра и управления фото-коллекцией. Пользователи могут авторизоваться, просматривать каталог работ, открывать детальную страницу снимка, а администраторы — создавать, редактировать и удалять публикации.
 
-Currently, two official plugins are available:
+## Технологии
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+| Категория | Стек |
+|-----------|------|
+| UI | React 19, TypeScript, MUI 9 |
+| Сборка | Vite |
+| Маршрутизация | React Router 7 (lazy routes) |
+| Состояние | Zustand + persist (localStorage) |
+| Формы | React Hook Form, Yup |
+| HTTP | Axios |
+| Галерея | react-masonry-css, yet-another-react-lightbox |
 
-## React Compiler
+## Архитектура
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Проект организован по **feature-based** (слой фич) структуре:
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── app/          # Точка входа приложения, роутер, ProtectedRoute
+├── features/     # Бизнес-фичи
+│   ├── auth/     # Вход и регистрация
+│   ├── catalog/  # Главная страница, галерея, слайдер
+│   └── picture/  # Детальная страница, CRUD публикаций
+└── shared/       # Переиспользуемый код
+    ├── interfaces/
+    ├── routes/
+    ├── stores/
+    ├── ui/
+    └── utils/
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+**Принципы:**
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Разделение по фичам** — каждая фича содержит свои `pages`, `components`, `hooks`, `api`
+- **Shared-слой** — общие UI-компоненты, типы, роуты, сторы и утилиты
+- **Lazy loading** — страницы подгружаются через `React Router lazy()`
+- **Защищённые маршруты** — каталог и работа с фото доступны только авторизованным пользователям
+- **Данные** — фотографии загружаются из JSONPlaceholder, пользовательские публикации хранятся локально в `localStorage` и объединяются с API-данными
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Основной функционал
+
+- Авторизация и регистрация (mock-пользователи + localStorage)
+- Каталог с hero-блоком, избранным слайдером и masonry-галереей
+- Детальная страница фото с автором и описанием
+- CRUD публикаций (только для администраторов)
+- Lightbox для избранных работ
+- Навигация по якорям через меню
+
+## Запуск
+
+```bash
+npm install
+npm run dev
 ```
+
+Сборка и линт:
+
+```bash
+npm run build
+npm run lint
+```
+
+## Тестовые аккаунты
+
+| Email | Пароль | Роль |
+|-------|--------|------|
+| anna@photographer.com | anna123 | Администратор |
+| mike@photographer.com | mike123 | Администратор |
+| elena@photographer.com | elena123 | Администратор |
+| admin@photographer.com | admin123 | Администратор |
+
+Новые пользователи, зарегистрированные через форму, получают роль обычного пользователя без доступа к CRUD.
