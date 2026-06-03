@@ -5,7 +5,7 @@ export interface IUser {
   isAdmin?: boolean;
 }
 
-export interface Photo {
+export interface IPhoto {
   albumId: number;
   id: number;
   title: string;
@@ -17,11 +17,11 @@ export interface Photo {
   isLocal?: boolean;
 }
 
-export interface Album {
+export interface IAlbum {
   userId: number;
 }
 
-export interface PhotoInput {
+export interface IPhotoInput {
   title: string;
   description: string;
   author: string;

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { fetchPhotoAuthor, fetchPhotoById } from "../api";
-import type { Photo } from "../../../shared/interfaces";
+import type { IPhoto } from "../../../shared/interfaces";
 import { usePhotoStore } from "../../../shared/stores/photoStore";
 import { findLocalPhoto } from "../../../shared/utils/photoMerge";
 
 interface UsePhotoResult {
-  photo: Photo | null;
+  photo: IPhoto | null;
   author: string | null;
   loading: boolean;
   error: string | null;
@@ -16,7 +16,7 @@ const isValidPictureId = (pictureId: string | undefined): pictureId is string =>
 
 export const usePhoto = (pictureId: string | undefined): UsePhotoResult => {
   const createdPhotos = usePhotoStore((state) => state.createdPhotos);
-  const [remotePhoto, setRemotePhoto] = useState<Photo | null>(null);
+  const [remotePhoto, setRemotePhoto] = useState<IPhoto | null>(null);
   const [remoteAuthor, setRemoteAuthor] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

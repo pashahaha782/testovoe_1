@@ -1,10 +1,10 @@
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import type { Photo } from "../../../shared/interfaces";
+import type { IPhoto } from "../../../shared/interfaces";
 import { getReliableImageUrl } from "../../../shared/utils/imageHelpers";
 
 interface CatalogHeroProps {
-  photo?: Photo;
+  photo?: IPhoto;
   photoCount: number;
 }
 
@@ -112,13 +112,7 @@ export function CatalogHero({ photo, photoCount }: CatalogHeroProps) {
                 работ в каталоге
               </Typography>
             </Box>
-            <Box
-              sx={{
-                width: 1,
-                backgroundColor: "rgba(255,255,255,0.2)",
-                alignSelf: "stretch",
-              }}
-            />
+
             <Box>
               <Typography
                 variant="h4"

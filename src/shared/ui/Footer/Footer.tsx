@@ -11,8 +11,7 @@ export function Footer() {
         backgroundColor: "background.default",
         borderTop: "1px solid",
         borderColor: "divider",
-        position: "sticky",
-        top: "100vh",
+        mt: "auto",
         width: "100%",
       }}
     >

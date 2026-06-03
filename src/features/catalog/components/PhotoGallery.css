@@ -1,0 +1,28 @@
+.photo-gallery__masonry {
+  display: flex;
+  width: auto;
+  margin-left: -20px;
+}
+
+.photo-gallery__masonry-column {
+  padding-left: 20px;
+  background-clip: padding-box;
+}
+
+.photo-gallery__masonry-column > div {
+  margin-bottom: 20px;
+}
+
+@media (min-width: 900px) {
+  .photo-gallery__masonry {
+    margin-left: -24px;
+  }
+
+  .photo-gallery__masonry-column {
+    padding-left: 24px;
+  }
+
+  .photo-gallery__masonry-column > div {
+    margin-bottom: 24px;
+  }
+}

@@ -4,10 +4,10 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { PhotoCard } from "./PhotoCard";
 import { SectionHeading } from "./SectionHeading";
-import type { Photo } from "../../../shared/interfaces";
+import type { IPhoto } from "../../../shared/interfaces";
 
 interface FeaturedSliderProps {
-  photos: Photo[];
+  photos: IPhoto[];
   title: string;
   subtitle?: string;
   onPhotoClick: (index: number) => void;

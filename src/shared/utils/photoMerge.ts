@@ -1,11 +1,11 @@
-import type { Photo } from "../interfaces";
+import type { IPhoto } from "../interfaces";
 
 export function mergePhotos(
-  seedPhotos: Photo[],
-  createdPhotos: Photo[],
-  editedPhotos: Record<number, Photo>,
+  seedPhotos: IPhoto[],
+  createdPhotos: IPhoto[],
+  editedPhotos: Record<number, IPhoto>,
   deletedIds: number[],
-): Photo[] {
+): IPhoto[] {
   const deletedSet = new Set(deletedIds);
 
   const mergedSeed = seedPhotos
@@ -17,7 +17,7 @@ export function mergePhotos(
 
 export function findLocalPhoto(
   photoId: number,
-  createdPhotos: Photo[],
-): Photo | undefined {
+  createdPhotos: IPhoto[],
+): IPhoto | undefined {
   return createdPhotos.find((photo) => photo.id === photoId);
 }

@@ -1,23 +1,15 @@
 import { ROUTES } from "../shared/routes/routes";
 import { createBrowserRouter, redirect } from "react-router-dom";
 import { App } from "./App.tsx";
-import { ProtectedRoute } from "./ProtectedRoute.tsx";
-import { Header } from "../shared/ui/Header/Header.tsx";
-import { Footer } from "../shared/ui/Footer/Footer.tsx";
 import { GuestLayout } from "../shared/ui/GuestLayout/GuestLayout.tsx";
+import { MainLayout } from "../shared/ui/MainLayout/MainLayout.tsx";
 
 export const router = createBrowserRouter([
   {
     element: <App />,
     children: [
       {
-        element: (
-          <>
-            <Header />
-            <ProtectedRoute />
-            <Footer />
-          </>
-        ),
+        element: <MainLayout />,
         children: [
           {
             path: ROUTES.CATALOG,

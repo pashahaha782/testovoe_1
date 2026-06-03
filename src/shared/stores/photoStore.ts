@@ -1,17 +1,17 @@
 import { create, type StateCreator } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import type { Photo, PhotoInput } from "../interfaces";
+import type { IPhoto, IPhotoInput } from "../interfaces";
 
 interface PhotoStoreState {
-  createdPhotos: Photo[];
+  createdPhotos: IPhoto[];
   nextLocalId: number;
 }
 
 interface PhotoStoreActions {
-  createPhoto: (input: PhotoInput, userId: string) => Photo;
-  updatePhoto: (id: number, input: PhotoInput, userId: string) => boolean;
+  createPhoto: (input: IPhotoInput, userId: string) => IPhoto;
+  updatePhoto: (id: number, input: IPhotoInput, userId: string) => boolean;
   deletePhoto: (id: number, userId: string) => boolean;
-  canManagePhoto: (photo: Photo, userId: string) => boolean;
+  canManagePhoto: (photo: IPhoto, userId: string) => boolean;
 }
 
 type PhotoStore = PhotoStoreState & PhotoStoreActions;
@@ -26,7 +26,7 @@ const photoStore: StateCreator<PhotoStore> = (set, get) => ({
 
   createPhoto: (input, userId) => {
     const id = get().nextLocalId;
-    const photo: Photo = {
+    const photo: IPhoto = {
       id,
       albumId: 0,
       title: input.title,
@@ -100,14 +100,14 @@ export const usePhotoStore = create<PhotoStore>()(
   }),
 );
 
-export const createPhoto = (input: PhotoInput, userId: string) =>
+export const createPhoto = (input: IPhotoInput, userId: string) =>
   usePhotoStore.getState().createPhoto(input, userId);
 
-export const updatePhoto = (id: number, input: PhotoInput, userId: string) =>
+export const updatePhoto = (id: number, input: IPhotoInput, userId: string) =>
   usePhotoStore.getState().updatePhoto(id, input, userId);
 
 export const deletePhoto = (id: number, userId: string) =>
   usePhotoStore.getState().deletePhoto(id, userId);
 
-export const canManagePhoto = (photo: Photo, userId: string) =>
+export const canManagePhoto = (photo: IPhoto, userId: string) =>
   usePhotoStore.getState().canManagePhoto(photo, userId);

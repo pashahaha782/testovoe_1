@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import type { PhotoInput } from "../../../shared/interfaces";
+import type { IPhotoInput } from "../../../shared/interfaces";
 
 const photoSchema = yup.object({
   title: yup
@@ -28,7 +28,7 @@ type PhotoFormData = yup.InferType<typeof photoSchema>;
 interface PhotoFormProps {
   defaultValues?: PhotoFormData;
   submitLabel: string;
-  onSubmit: (data: PhotoInput) => Promise<boolean>;
+  onSubmit: (data: IPhotoInput) => Promise<boolean>;
   onCancel: () => void;
 }
 

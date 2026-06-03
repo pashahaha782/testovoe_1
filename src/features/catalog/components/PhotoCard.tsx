@@ -2,17 +2,23 @@ import { useState } from "react";
 import { Box, Card, Typography } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { href, useNavigate } from "react-router-dom";
-import type { Photo } from "../../../shared/interfaces";
+import type { IPhoto } from "../../../shared/interfaces";
 import { ROUTES } from "../../../shared/routes/routes";
 import { getReliableImageUrl } from "../../../shared/utils/imageHelpers";
 
 interface PhotoCardProps {
-  photo: Photo;
+  photo: IPhoto;
   tall?: boolean;
+  imageHeight?: number;
   onClick?: () => void;
 }
 
-export function PhotoCard({ photo, tall = false, onClick }: PhotoCardProps) {
+export function PhotoCard({
+  photo,
+  tall = false,
+  imageHeight,
+  onClick,
+}: PhotoCardProps) {
   const navigate = useNavigate();
   const [imgError, setImgError] = useState(false);
   const imageUrl = getReliableImageUrl(photo.id);
@@ -30,10 +36,11 @@ export function PhotoCard({ photo, tall = false, onClick }: PhotoCardProps) {
   };
 
   return (
-    <article style={{ height: tall ? "100%" : undefined }}>
+    <article style={{ height: tall ? "100%" : undefined, width: "100%" }}>
       <Card
         onClick={handleClick}
         sx={{
+          width: "100%",
           height: tall ? "100%" : "auto",
           minHeight: tall ? 280 : undefined,
           position: "relative",
@@ -42,9 +49,8 @@ export function PhotoCard({ photo, tall = false, onClick }: PhotoCardProps) {
           cursor: "pointer",
           border: "1px solid",
           borderColor: "divider",
-          transition: "transform 0.35s ease, box-shadow 0.35s ease",
+          transition: "box-shadow 0.35s ease",
           "&:hover": {
-            transform: "translateY(-6px)",
             boxShadow: "0 24px 48px rgba(0,0,0,0.18)",
             "& .photo-card__image": {
               transform: "scale(1.08)",
@@ -57,20 +63,29 @@ export function PhotoCard({ photo, tall = false, onClick }: PhotoCardProps) {
         }}
       >
         <Box
-          className="photo-card__image"
-          component="img"
-          src={imgError ? fallbackImage : imageUrl}
-          alt={photo.title}
-          onError={() => setImgError(true)}
           sx={{
-            display: "block",
-            width: "100%",
-            height: tall ? "100%" : { xs: 260, sm: 280, md: 300 },
+            overflow: "hidden",
+            height:
+              imageHeight ?? (tall ? "100%" : { xs: 260, sm: 280, md: 300 }),
             minHeight: tall ? 280 : undefined,
-            objectFit: "cover",
-            transition: "transform 0.6s ease",
           }}
-        />
+        >
+          <Box
+            className="photo-card__image"
+            component="img"
+            src={imgError ? fallbackImage : imageUrl}
+            alt={photo.title}
+            onError={() => setImgError(true)}
+            sx={{
+              display: "block",
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              transition: "transform 0.6s ease",
+              transformOrigin: "center center",
+            }}
+          />
+        </Box>
 
         <Box
           sx={{

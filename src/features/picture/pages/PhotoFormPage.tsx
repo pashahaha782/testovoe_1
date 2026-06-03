@@ -20,7 +20,7 @@ import {
 } from "../../../shared/stores/userStore";
 import { LoadingSpinner } from "../../../shared/ui/LoadingSpinner/LoadingSpinner";
 import { ErrorMessage } from "../../../shared/ui/ErrorMessage/ErrorMessage";
-import type { PhotoInput } from "../../../shared/interfaces";
+import type { IPhotoInput } from "../../../shared/interfaces";
 
 function PhotoFormPage() {
   const navigate = useNavigate();
@@ -58,7 +58,7 @@ function PhotoFormPage() {
     }
   }
 
-  const handleSubmit = async (data: PhotoInput) => {
+  const handleSubmit = async (data: IPhotoInput) => {
     if (isEditMode && pictureId) {
       const success = updatePhoto(Number(pictureId), data, session.id);
 
@@ -76,7 +76,14 @@ function PhotoFormPage() {
   };
 
   return (
-    <Box component="main" sx={{ py: { xs: 4, md: 6 } }}>
+    <Box
+      sx={{
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        py: { xs: 4, md: 6 },
+      }}
+    >
       <Container maxWidth="sm">
         <Paper
           elevation={0}
